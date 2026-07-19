@@ -11,6 +11,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/incomes")
 public class IncomeController {
+    String loggerBase = "IncomeController-";
 
     @Autowired
     private IncomeService service;
@@ -27,6 +28,7 @@ public class IncomeController {
 
     @PostMapping
     public ResponseEntity<IncomeDTO> create(@RequestBody IncomeDTO dto) {
+        System.out.println(loggerBase+"create \n" + dto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
