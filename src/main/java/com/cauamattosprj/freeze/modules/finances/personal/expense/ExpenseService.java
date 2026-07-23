@@ -16,6 +16,12 @@ public class ExpenseService {
         return repository.findAll().stream().map(ExpenseDTO::new).toList();
     }
 
+    public List<ExpenseDTO> findAllByCreditCard(UUID creditCardId) {
+        List<ExpenseDTO> expenses = repository.findAllByCreditCard_Id(creditCardId).stream().map(ExpenseDTO::new).toList();
+        System.out.println("expenses" + expenses);
+        return expenses;
+    }
+
     public ExpenseDTO findById(UUID id) {
         return new ExpenseDTO(repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Expense not found with id: " + id)));

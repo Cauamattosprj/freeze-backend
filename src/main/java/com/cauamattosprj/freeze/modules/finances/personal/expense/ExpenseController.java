@@ -16,7 +16,11 @@ public class ExpenseController {
     private ExpenseService service;
 
     @GetMapping
-    public ResponseEntity<List<ExpenseDTO>> findAll() {
+    public ResponseEntity<List<ExpenseDTO>> findAll(@RequestParam(required = false) UUID creditCardId) {
+        if (creditCardId != null) {
+            return ResponseEntity.ok(service.findAllByCreditCard(creditCardId));
+        }
+
         return ResponseEntity.ok(service.findAll());
     }
 

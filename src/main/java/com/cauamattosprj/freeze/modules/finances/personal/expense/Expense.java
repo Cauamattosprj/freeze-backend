@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.expense;
 
+import com.cauamattosprj.freeze.modules.finances.personal.creditcard.CreditCard;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,9 @@ public class Expense {
     private String status;
     private Date dueDate;
     private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "credit_card_id")
+    private CreditCard creditCard;
 
     public Expense() {}
 
@@ -28,4 +32,6 @@ public class Expense {
         this.dueDate = dto.getDueDate();
         this.category = dto.getCategory();
     }
+
+
 }

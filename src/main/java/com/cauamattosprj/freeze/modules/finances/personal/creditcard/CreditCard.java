@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.creditcard;
 
+import com.cauamattosprj.freeze.modules.finances.personal.expense.Expense;
 import jakarta.persistence.*;
 import lombok.Data;
 

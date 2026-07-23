@@ -13,6 +13,7 @@ public class ExpenseDTO {
     private String status;
     private Date dueDate;
     private String category;
+    private UUID creditCardId;
 
     public ExpenseDTO() {}
 
@@ -23,5 +24,6 @@ public class ExpenseDTO {
         this.status = entity.getStatus();
         this.dueDate = entity.getDueDate();
         this.category = entity.getCategory();
+        this.creditCardId = entity.getCreditCard().getId();
     }
 }
