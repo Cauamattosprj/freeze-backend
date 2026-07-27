@@ -19,7 +19,9 @@ public class Investment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String label;
+    @Column(name = "initial_amount")
     private Double initialAmount;
+    @Column(name = "rentability_rate")
     private Double rentabilityRate;
 
     @Enumerated(EnumType.STRING)

@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.income;
 
+import com.cauamattosprj.freeze.modules.finances.personal.income.enums.IncomeStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,7 +16,8 @@ public class Income {
     private UUID id;
     private String label;
     private Integer amount;
-    private String status;
+    private IncomeStatus status;
+    @Column(name = "due_date")
     private Date dueDate;
     private String category;
 

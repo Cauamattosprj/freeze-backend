@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.expense;
 
+import com.cauamattosprj.freeze.modules.finances.personal.expense.enums.ExpenseStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ public class ExpenseDTO {
     private UUID id;
     private String label;
     private Integer amount;
-    private String status;
+    private ExpenseStatus status;
     private Date dueDate;
     private String category;
     private UUID creditCardId;
@@ -24,6 +25,8 @@ public class ExpenseDTO {
         this.status = entity.getStatus();
         this.dueDate = entity.getDueDate();
         this.category = entity.getCategory();
-        this.creditCardId = entity.getCreditCard().getId();
+        if (entity.getCreditCard() != null) {
+            this.creditCardId = entity.getCreditCard().getId();
+        }
     }
 }

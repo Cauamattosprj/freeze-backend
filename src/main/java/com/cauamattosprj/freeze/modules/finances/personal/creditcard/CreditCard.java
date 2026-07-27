@@ -15,12 +15,15 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String label;
+    @Column(name = "holder_name")
     private String holderName;
     private String number;
     private String expiry;
     private String cvv;
+    @Column(name = "limit_amount")
     private Double limitAmount;
     private String brand;
+    @Column(name = "due_date")
     private Date dueDate;
 
     public CreditCard() {}

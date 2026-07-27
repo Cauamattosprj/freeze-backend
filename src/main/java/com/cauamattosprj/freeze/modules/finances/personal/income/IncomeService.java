@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.income;
 
+import com.cauamattosprj.freeze.modules.finances.personal.income.enums.IncomeStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,10 @@ public class IncomeService {
 
     public List<IncomeDTO> findAll() {
         return repository.findAll().stream().map(IncomeDTO::new).toList();
+    }
+
+    public List<IncomeDTO> findAllReceived() {
+        return repository.findAllByStatusIs(IncomeStatus.RECEIVED).stream().map(IncomeDTO::new).toList();
     }
 
     public IncomeDTO findById(UUID id) {

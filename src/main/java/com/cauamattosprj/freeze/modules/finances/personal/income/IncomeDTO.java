@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.income;
 
+import com.cauamattosprj.freeze.modules.finances.personal.income.enums.IncomeStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ public class IncomeDTO {
     private UUID id;
     private String label;
     private Integer amount;
-    private String status;
+    private IncomeStatus status;
     private Date dueDate;
     private String category;
 

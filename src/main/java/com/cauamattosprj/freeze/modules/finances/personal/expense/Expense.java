@@ -1,6 +1,7 @@
 package com.cauamattosprj.freeze.modules.finances.personal.expense;
 
 import com.cauamattosprj.freeze.modules.finances.personal.creditcard.CreditCard;
+import com.cauamattosprj.freeze.modules.finances.personal.expense.enums.ExpenseStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,7 +17,8 @@ public class Expense {
     private UUID id;
     private String label;
     private Integer amount;
-    private String status;
+    private ExpenseStatus status;
+    @Column(name = "due_date")
     private Date dueDate;
     private String category;
     @ManyToOne(fetch = FetchType.LAZY)

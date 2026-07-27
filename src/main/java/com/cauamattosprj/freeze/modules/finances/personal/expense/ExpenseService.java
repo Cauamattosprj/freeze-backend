@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.modules.finances.personal.expense;
 
+import com.cauamattosprj.freeze.modules.finances.personal.expense.enums.ExpenseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,12 @@ public class ExpenseService {
 
     public List<ExpenseDTO> findAllByCreditCard(UUID creditCardId) {
         List<ExpenseDTO> expenses = repository.findAllByCreditCard_Id(creditCardId).stream().map(ExpenseDTO::new).toList();
+        System.out.println("expenses" + expenses);
+        return expenses;
+    }
+
+    public List<ExpenseDTO> findAllPaid() {
+        List<ExpenseDTO> expenses = repository.findAllByStatus(ExpenseStatus.PAID).stream().map(ExpenseDTO::new).toList();
         System.out.println("expenses" + expenses);
         return expenses;
     }
