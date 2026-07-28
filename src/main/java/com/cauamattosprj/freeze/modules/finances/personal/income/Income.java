@@ -21,6 +21,7 @@ public class Income {
     private Date dueDate;
     private String category;
 
+
     public Income() {}
 
     public Income(IncomeDTO dto) {
