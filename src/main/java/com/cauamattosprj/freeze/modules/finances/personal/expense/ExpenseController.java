@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/expenses")
+@RequestMapping("expenses")
 public class ExpenseController {
 
     @Autowired

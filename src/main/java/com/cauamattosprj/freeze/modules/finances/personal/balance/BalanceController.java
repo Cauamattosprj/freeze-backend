@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/balance")
+@RequestMapping("balance")
 public class BalanceController {
     @Autowired
     private BalanceService service;

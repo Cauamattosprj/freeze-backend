@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/incomes")
+@RequestMapping("incomes")
 public class IncomeController {
     String loggerBase = "IncomeController-";
 

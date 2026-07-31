@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
             "/api/users/login",
             "/api/users/signUp",
-            "/refresh"
+            "/api/users/refresh"
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {

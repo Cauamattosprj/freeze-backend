@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/credit-cards")
+@RequestMapping("credit-cards")
 public class CreditCardController {
 
     @Autowired

@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ServletRequestPathUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean isPublicUrl(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
+        String requestURI = ServletRequestPathUtils.parse(request).pathWithinApplication().value();
         return Arrays.asList(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).contains(requestURI);
     }
 }
