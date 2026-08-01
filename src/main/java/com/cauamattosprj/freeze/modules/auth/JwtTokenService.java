@@ -4,53 +4,84 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cauamattosprj.freeze.modules.users.UserDetailsImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 @Service
 public class JwtTokenService {
-    private static final String SECRET_KEY = "freeze-secret"; // Chave secreta utilizada para gerar e verificar o token
+    private static final String SECRET_KEY = "freeze-secret";
 
-    private static final String ISSUER = "freeze-backend"; // Emissor do token
+    private static final String ISSUER = "freeze-backend";
+
+    private static final String CLAIM_TYPE = "type";
+
+    private static final Duration ACCESS_TOKEN_DURATION = Duration.ofMinutes(15);
+
+    private static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(7);
 
     public String generateToken(UserDetailsImpl userDetails) {
+        return generateToken(userDetails, TokenType.ACCESS);
+    }
+
+    public String generateRefreshToken(UserDetailsImpl userDetails) {
+        return generateToken(userDetails, TokenType.REFRESH);
+    }
+
+    public String generateToken(UserDetailsImpl userDetails, TokenType tokenType) {
         try {
-            // Define o algoritmo HMAC SHA256 para criar a assinatura do token passando a chave secreta definida
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             return JWT.create()
-                    .withIssuer(ISSUER) // Define o emissor do token
-                    .withIssuedAt(creationDate()) // Define a data de emissão do token
-                    .withExpiresAt(expirationDate()) // Define a data de expiração do token
-                    .withSubject(userDetails.getUser().getId().toString()) // Define o assunto do token (neste caso, o nome de usuário)
-                    .sign(algorithm); // Assina o token usando o algoritmo especificado
-        } catch (JWTCreationException exception){
+                    .withIssuer(ISSUER)
+                    .withIssuedAt(Instant.now())
+                    .withExpiresAt(expirationDate(tokenType))
+                    .withClaim(CLAIM_TYPE, tokenType.name())
+                    .withSubject(userDetails.getUser().getId().toString())
+                    .sign(algorithm);
+        } catch (JWTCreationException exception) {
             throw new JWTCreationException("Erro ao gerar token.", exception);
         }
     }
 
     public String getSubjectFromToken(String token) {
+        return getSubjectFromToken(token, null);
+    }
+
+    public String getSubjectFromToken(String token, TokenType expectedType) {
         try {
-            // Define o algoritmo HMAC SHA256 para verificar a assinatura do token passando a chave secreta definida
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-            return JWT.require(algorithm)
-                    .withIssuer(ISSUER) // Define o emissor do token
+            DecodedJWT decodedJWT = JWT.require(algorithm)
+                    .withIssuer(ISSUER)
                     .build()
-                    .verify(token) // Verifica a validade do token
-                    .getSubject(); // Obtém o assunto (neste caso, o nome de usuário) do token
-        } catch (JWTVerificationException exception){
+                    .verify(token);
+
+            if (expectedType != null) {
+                String tokenType = decodedJWT.getClaim(CLAIM_TYPE).asString();
+                if (!expectedType.name().equals(tokenType)) {
+                    throw new JWTVerificationException("Tipo de token inválido.");
+                }
+            }
+
+            return decodedJWT.getSubject();
+        } catch (JWTVerificationException exception) {
             throw new JWTVerificationException("Token inválido ou expirado.");
         }
     }
 
-    private Instant creationDate() {
-        return ZonedDateTime.now(ZoneId.of("America/Recife")).toInstant();
+    public boolean isTokenValid(String token, TokenType expectedType) {
+        try {
+            getSubjectFromToken(token, expectedType);
+            return true;
+        } catch (JWTVerificationException exception) {
+            return false;
+        }
     }
 
-    private Instant expirationDate() {
-        return ZonedDateTime.now(ZoneId.of("America/Recife")).plusMinutes(15).toInstant();
+    private Instant expirationDate(TokenType tokenType) {
+        Duration duration = tokenType == TokenType.REFRESH ? REFRESH_TOKEN_DURATION : ACCESS_TOKEN_DURATION;
+        return Instant.now().plus(duration);
     }
 }

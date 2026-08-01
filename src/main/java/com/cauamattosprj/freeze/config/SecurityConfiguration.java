@@ -1,5 +1,6 @@
 package com.cauamattosprj.freeze.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +23,9 @@ public class SecurityConfiguration {
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
             "/api/users/login",
             "/api/users/signUp",
-            "/api/users/refresh"
-    };
-
-    public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/**"
+            "/api/auth/refresh",
+            "/api/auth/validate",
+            "/api/auth/logout"
     };
 
     @Bean
@@ -34,20 +33,14 @@ public class SecurityConfiguration {
         return httpSecurity
                 .sessionManagement((sessionManagement ->
                         sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                                .sessionConcurrency((sessionConcurrency) ->
-                                    sessionConcurrency
-                                            .maximumSessions(1)
-                                            .expiredUrl("/login?expired")
-                )))
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
                 .csrf(csrf -> csrf.disable())
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint((request, response, authException) ->
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-//                        .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
-//                        .anyRequest().denyAll()
-//                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
-//                        .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
-                )
+                        .anyRequest().authenticated())
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
