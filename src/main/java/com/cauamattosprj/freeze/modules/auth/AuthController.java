@@ -55,6 +55,7 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<Void> validate(HttpServletRequest request) {
+        System.out.println("Validador chamado: " + request.toString());
         String accessToken = authCookieService.getCookieValue(request, AuthCookieService.ACCESS_TOKEN_COOKIE);
         boolean valid = accessToken != null && jwtTokenService.isTokenValid(accessToken, TokenType.ACCESS);
         return valid
