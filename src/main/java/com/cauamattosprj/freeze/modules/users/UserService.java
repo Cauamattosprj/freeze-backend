@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -29,6 +31,10 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
 
     public String authenticateUser(UserLoginDTO userLoginDTO) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
