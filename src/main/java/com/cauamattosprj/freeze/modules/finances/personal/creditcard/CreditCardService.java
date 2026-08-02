@@ -37,9 +37,6 @@ public class CreditCardService {
         CreditCard existing = findOwnedCreditCard(id);
         if (dto.getLabel() != null) existing.setLabel(dto.getLabel());
         if (dto.getHolderName() != null) existing.setHolderName(dto.getHolderName());
-        if (dto.getNumber() != null) existing.setNumber(dto.getNumber());
-        if (dto.getExpiry() != null) existing.setExpiry(dto.getExpiry());
-        if (dto.getCvv() != null) existing.setCvv(dto.getCvv());
         if (dto.getLimitAmount() != null) existing.setLimitAmount(dto.getLimitAmount());
         if (dto.getBrand() != null) existing.setBrand(dto.getBrand());
         if (dto.getDueDate() != null) existing.setDueDate(dto.getDueDate());

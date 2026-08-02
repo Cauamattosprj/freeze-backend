@@ -17,9 +17,6 @@ public class CreditCard {
     private String label;
     @Column(name = "holder_name")
     private String holderName;
-    private String number;
-    private String expiry;
-    private String cvv;
     @Column(name = "limit_amount")
     private Double limitAmount;
     private String brand;
@@ -33,9 +30,6 @@ public class CreditCard {
     public CreditCard(CreditCardDTO dto) {
         this.label = dto.getLabel();
         this.holderName = dto.getHolderName();
-        this.number = dto.getNumber();
-        this.expiry = dto.getExpiry();
-        this.cvv = dto.getCvv();
         this.limitAmount = dto.getLimitAmount();
         this.brand = dto.getBrand();
         this.dueDate = dto.getDueDate();
