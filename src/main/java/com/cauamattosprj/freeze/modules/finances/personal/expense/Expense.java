@@ -24,6 +24,8 @@ public class Expense {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "credit_card_id")
     private CreditCard creditCard;
+    @Column(name = "user_id")
+    private UUID userId;
 
     public Expense() {}
 

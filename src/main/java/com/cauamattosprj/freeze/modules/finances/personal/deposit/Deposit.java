@@ -15,6 +15,8 @@ public class Deposit {
     private UUID id;
     private Double amount;
     private Date date;
+    @Column(name = "user_id")
+    private UUID userId;
 
     public Deposit() {}
 

@@ -36,6 +36,8 @@ public class Investment {
 
     @Enumerated(EnumType.STRING)
     private InvestmentCategory category;
+    @Column(name = "user_id")
+    private UUID userId;
 
     public Investment() {}
 

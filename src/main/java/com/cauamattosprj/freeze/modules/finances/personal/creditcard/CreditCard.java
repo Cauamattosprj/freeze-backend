@@ -25,6 +25,8 @@ public class CreditCard {
     private String brand;
     @Column(name = "due_date")
     private Date dueDate;
+    @Column(name = "user_id")
+    private UUID userId;
 
     public CreditCard() {}
 

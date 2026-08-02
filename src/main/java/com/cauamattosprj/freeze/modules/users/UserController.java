@@ -3,6 +3,7 @@ package com.cauamattosprj.freeze.modules.users;
 import com.cauamattosprj.freeze.modules.auth.AuthCookieService;
 import com.cauamattosprj.freeze.modules.auth.JwtTokenService;
 import com.cauamattosprj.freeze.modules.users.dtos.UserCreateDTO;
+import com.cauamattosprj.freeze.modules.users.dtos.UserDTO;
 import com.cauamattosprj.freeze.modules.users.dtos.UserLoginDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     private AuthCookieService authCookieService;
 
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
+
     @PostMapping("/login")
     public ResponseEntity<Void> authenticateUser(@RequestBody UserLoginDTO loginUserDto, HttpServletResponse response) {
         UserDetailsImpl userDetails = userService.authenticateUser(loginUserDto);
@@ -43,8 +47,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable UUID userId) {
-        return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getAuthenticatedUser() {
+        UUID userId = authenticatedUserService.getAuthenticatedUserId();
+        return new ResponseEntity<UserDTO>(new UserDTO(userService.getUserById(userId)), HttpStatus.OK);
     }
 }

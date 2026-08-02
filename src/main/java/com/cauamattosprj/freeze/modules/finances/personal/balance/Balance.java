@@ -20,4 +20,6 @@ public class Balance {
     private UUID id;
     @Column(name = "initial_amount")
     private Integer initialAmount;
+    @Column(name = "user_id")
+    private UUID userId;
 }

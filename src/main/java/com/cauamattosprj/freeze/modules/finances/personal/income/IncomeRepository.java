@@ -7,5 +7,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 public interface IncomeRepository extends JpaRepository<Income, UUID> {
-    Collection<Income> findAllByStatusIs(IncomeStatus status);
+    Collection<Income> findAllByUserId(UUID userId);
+
+    Collection<Income> findAllByStatusIsAndUserId(IncomeStatus status, UUID userId);
 }

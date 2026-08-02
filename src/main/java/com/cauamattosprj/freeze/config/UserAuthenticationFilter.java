@@ -44,7 +44,7 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
                     if (user != null) {
                         UserDetailsImpl userDetails = new UserDetailsImpl(user);
                         Authentication authentication =
-                                new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 } catch (RuntimeException exception) {

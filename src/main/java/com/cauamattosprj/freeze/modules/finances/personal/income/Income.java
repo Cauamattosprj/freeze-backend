@@ -20,7 +20,8 @@ public class Income {
     @Column(name = "due_date")
     private Date dueDate;
     private String category;
-
+    @Column(name = "user_id")
+    private UUID userId;
 
     public Income() {}
 
